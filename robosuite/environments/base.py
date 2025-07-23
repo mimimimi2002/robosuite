@@ -443,6 +443,8 @@ class MujocoEnv(metaclass=EnvMeta):
         if len(finger1_collisions) == 0:
             observations["finger1_collision"] = np.zeros_like((1, 6), dtype=np.float64)
         else:
+            print("finger1_collisions")
+            print(finger1_collisions)
             observations["finger1_collision"] = np.sum(np.array(finger1_collisions), axis=0)
         print(observations)
         return observations, reward, done, info
