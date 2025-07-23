@@ -408,8 +408,8 @@ class MujocoEnv(metaclass=EnvMeta):
 
         observations = self.viewer._get_observations() if self.viewer_get_obs else self._get_observations()
         print(observations)
-        for j in range(self.sim.data.ncon):
-            contact = self.sim.data.contact[j]
+        for i in range(self.sim.data.ncon):
+            contact = self.sim.data.contact[i]
             print("geom1:", contact.geom1, "geom2:", contact.geom2)
             # ジオメトリID
             geom1_id = contact.geom1
