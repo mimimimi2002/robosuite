@@ -408,7 +408,7 @@ class MujocoEnv(metaclass=EnvMeta):
 
         observations = self.viewer._get_observations() if self.viewer_get_obs else self._get_observations()
 
-        finger1_collision = None
+        finger1_collisions = []
         finger1_pad_collision = None
         finger2_collision = None
         finger2_pad_collision = None
@@ -435,14 +435,15 @@ class MujocoEnv(metaclass=EnvMeta):
 
             # どちらかのgeometryがfiger1 collisionだった場合
             if geom1_name == "gripper0_finger1_collision" or geom2_name == "gripper0_finger1_collision":
-                finger1_collision = force
-                observations["finger1_collision"] = force
+                finger1_collisions.append(force.copy())
                 print(f"Contact {i}")
                 print(f"  geom1: {geom1_name}, geom2: {geom2_name}")
                 print(f"  force: {force}")
 
-        if finger1_collision == None:
+        if len(finger1_collisions) == 0:
             observations["finger1_collision"] = np.zeros_like((1, 6), dtype=np.float64)
+        else:
+            observations["finger1_collision"] = np.sum(np.array(finger1_collisions), axis=0)
         print(observations)
         return observations, reward, done, info
 
