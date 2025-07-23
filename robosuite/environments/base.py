@@ -366,7 +366,7 @@ class MujocoEnv(metaclass=EnvMeta):
     def print_contact_force(self):
         for i in range(self.sim.data.ncon):
             contact = self.sim.data.contact[i]
-
+            print("geom1:", contact.geom1, "geom2:", contact.geom2)
             # ジオメトリID
             geom1_id = contact.geom1
             geom2_id = contact.geom2
