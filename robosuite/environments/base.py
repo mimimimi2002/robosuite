@@ -337,8 +337,8 @@ class MujocoEnv(metaclass=EnvMeta):
         if force_update:
             self._update_observables(force=True)
 
-        print("self._observables.items()")
-        print(self._observables.items())
+        # print("self._observables.items()")
+        # print(self._observables.items())
 
         # Loop through all observables and grab their current observation
         for obs_name, observable in self._observables.items():
@@ -393,6 +393,8 @@ class MujocoEnv(metaclass=EnvMeta):
             self._pre_action(action, policy_step)
             self.sim.step()
             self._update_observables()
+            print("self.sim.data")
+            print(self.sim.data)
             for j in range(self.sim.data.ncon):
                 contact = self.sim.data.contact[j]
                 print("geom1:", contact.geom1, "geom2:", contact.geom2)
