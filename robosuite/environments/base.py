@@ -3,7 +3,7 @@ import xml.etree.ElementTree as ET
 from collections import OrderedDict
 
 import numpy as np
-import mujoco
+import mujoco_py
 
 import robosuite
 import robosuite.macros as macros
@@ -408,16 +408,16 @@ class MujocoEnv(metaclass=EnvMeta):
                 geom2_name = self.sim.model.geom_id2name(geom2_id) or f"geom_{geom2_id}"
 
                 # 接触力ベクトル（法線＋接線成分、6次元）
-                forcetorque = np.zeros(6)
-                mujoco.mj_contactForce(self.sim.model, self.sim.data, j, forcetorque)
-                c_array = forcetorque[0:3]
+                # 接触力ベクトルの格納用（6次元：法線 + 接線 * 2）
+                force = np.zeros(6, dtype=np.float64)
 
-                # 力の大きさ（ノルム）
-                force_magnitude = np.linalg.norm(c_array)
+                # mj_contactForce を使って接触力を取得
+                mujoco_py.functions.mj_contactForce(self.sim.model, self.sim.data, j, force)
 
-                print(f"Contact {j}: {geom1_name} <-> {geom2_name}")
-                print(f"  Force vector: {c_array}")
-                print(f"  |Force| = {force_magnitude:.4f} N")
+
+                print(f"Contact {i}")
+                print(f"  geom1: {geom1_name}, geom2: {geom2_name}")
+                print(f"  force: {force}")
             policy_step = False
 
         # Note: this is done all at once to avoid floating point inaccuracies
