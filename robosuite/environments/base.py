@@ -407,7 +407,11 @@ class MujocoEnv(metaclass=EnvMeta):
             self.viewer.update()
 
         observations = self.viewer._get_observations() if self.viewer_get_obs else self._get_observations()
-        print(observations)
+
+        finger1_collision = None
+        finger1_pad_collision = None
+        finger2_collision = None
+        finger2_pad_collision = None
         for i in range(self.sim.data.ncon):
             contact = self.sim.data.contact[i]
             print("geom1:", contact.geom1, "geom2:", contact.geom2)
@@ -429,10 +433,17 @@ class MujocoEnv(metaclass=EnvMeta):
             # mj_contactForce を使って接触力を取得
             mujoco.mj_contactForce(mujoco_model, mujoco_data, i, force)
 
+            # 接触したジオメトリがfinger1かfinger2かどうか
+            if geom1_name == "finger1_collision":
+                finger1_collision = force
+                observations["finger1_collision"] = force
+                print(f"Contact {i}")
+                print(f"  geom1: {geom1_name}, geom2: {geom2_name}")
+                print(f"  force: {force}")
 
-            print(f"Contact {i}")
-            print(f"  geom1: {geom1_name}, geom2: {geom2_name}")
-            print(f"  force: {force}")
+        if finger1_collision == None:
+            observations["finger1_collision"] = np.zeros_like(1, 6)
+        print(observations)
         return observations, reward, done, info
 
     def _pre_action(self, action, policy_step=False):
