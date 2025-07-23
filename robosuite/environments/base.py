@@ -396,31 +396,6 @@ class MujocoEnv(metaclass=EnvMeta):
             self._update_observables()
             print("self.sim.data")
             print(self.sim.data)
-            for j in range(self.sim.data.ncon):
-                contact = self.sim.data.contact[j]
-                print("geom1:", contact.geom1, "geom2:", contact.geom2)
-                # ジオメトリID
-                geom1_id = contact.geom1
-                geom2_id = contact.geom2
-
-                # ジオメトリ名
-                geom1_name = self.sim.model.geom_id2name(geom1_id) or f"geom_{geom1_id}"
-                geom2_name = self.sim.model.geom_id2name(geom2_id) or f"geom_{geom2_id}"
-
-                # 接触力ベクトルの格納用（6次元：法線 + 接線 * 2）
-                force = np.zeros((6, 1), dtype=np.float64)
-
-                mujoco_model = self.sim.model._model # 内部の mujoco.MjModel
-                mujoco_data  = self.sim.data._data # 内部の mujoco.MjData
-
-
-                # mj_contactForce を使って接触力を取得
-                mujoco.mj_contactForce(mujoco_model, mujoco_data, j, force)
-
-
-                # print(f"Contact {i}")
-                # print(f"  geom1: {geom1_name}, geom2: {geom2_name}")
-                # print(f"  force: {force}")
             policy_step = False
 
         # Note: this is done all at once to avoid floating point inaccuracies
@@ -433,6 +408,31 @@ class MujocoEnv(metaclass=EnvMeta):
 
         observations = self.viewer._get_observations() if self.viewer_get_obs else self._get_observations()
         print(observations)
+        for j in range(self.sim.data.ncon):
+            contact = self.sim.data.contact[j]
+            print("geom1:", contact.geom1, "geom2:", contact.geom2)
+            # ジオメトリID
+            geom1_id = contact.geom1
+            geom2_id = contact.geom2
+
+            # ジオメトリ名
+            geom1_name = self.sim.model.geom_id2name(geom1_id) or f"geom_{geom1_id}"
+            geom2_name = self.sim.model.geom_id2name(geom2_id) or f"geom_{geom2_id}"
+
+            # 接触力ベクトルの格納用（6次元：法線 + 接線 * 2）
+            force = np.zeros((6, 1), dtype=np.float64)
+
+            mujoco_model = self.sim.model._model # 内部の mujoco.MjModel
+            mujoco_data  = self.sim.data._data # 内部の mujoco.MjData
+
+
+            # mj_contactForce を使って接触力を取得
+            mujoco.mj_contactForce(mujoco_model, mujoco_data, j, force)
+
+
+            print(f"Contact {i}")
+            print(f"  geom1: {geom1_name}, geom2: {geom2_name}")
+            print(f"  force: {force}")
         return observations, reward, done, info
 
     def _pre_action(self, action, policy_step=False):
