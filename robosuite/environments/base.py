@@ -1,7 +1,6 @@
 import os
 import xml.etree.ElementTree as ET
 from collections import OrderedDict
-import mujoco_py
 
 import numpy as np
 
@@ -408,8 +407,9 @@ class MujocoEnv(metaclass=EnvMeta):
                 geom2_name = self.sim.model.geom_id2name(geom2_id) or f"geom_{geom2_id}"
 
                 # 接触力ベクトル（法線＋接線成分、6次元）
-                c_array = np.zeros(6, dtype=np.float64)
-                mujoco_py.functions.mj_contactForce(self.sim.model, self.sim.data, i, c_array)
+                forcetorque = np.zeros(6)
+                mujoco.mj_contactForce(self.sim.model, self.sim.data, j, forcetorque)
+                c_array = forcetorque[0:3]
 
                 # 力の大きさ（ノルム）
                 force_magnitude = np.linalg.norm(c_array)
