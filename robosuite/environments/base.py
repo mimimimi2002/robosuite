@@ -403,13 +403,13 @@ class MujocoEnv(metaclass=EnvMeta):
                 geom1_id = contact.geom1
                 geom2_id = contact.geom2
 
-                # ジオメトリ名（名前が付いてないと None）
+                # ジオメトリ名
                 geom1_name = self.sim.model.geom_id2name(geom1_id) or f"geom_{geom1_id}"
                 geom2_name = self.sim.model.geom_id2name(geom2_id) or f"geom_{geom2_id}"
 
                 # 接触力ベクトル（法線＋接線成分、6次元）
                 # 接触力ベクトルの格納用（6次元：法線 + 接線 * 2）
-                force = np.zeros(6, dtype=np.float64)
+                force = np.zeros((6, 1), dtype=np.float64)
 
                 # mj_contactForce を使って接触力を取得
                 mujoco.mj_contactForce(self.sim.model, self.sim.data, j, force)
