@@ -433,8 +433,8 @@ class MujocoEnv(metaclass=EnvMeta):
             # mj_contactForce を使って接触力を取得
             mujoco.mj_contactForce(mujoco_model, mujoco_data, i, force)
 
-            # 接触したジオメトリがfinger1かfinger2かどうか
-            if geom1_name == "finger1_collision":
+            # どちらかのgeometryがfiger1 collisionだった場合
+            if geom1_name == "gripper0_finger1_collision" or geom2_name == "gripper0_finger1_collision":
                 finger1_collision = force
                 observations["finger1_collision"] = force
                 print(f"Contact {i}")
