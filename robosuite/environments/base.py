@@ -337,6 +337,9 @@ class MujocoEnv(metaclass=EnvMeta):
         if force_update:
             self._update_observables(force=True)
 
+        print("self._observables.items()")
+        print(self._observables.items())
+
         # Loop through all observables and grab their current observation
         for obs_name, observable in self._observables.items():
             if observable.is_enabled() and observable.is_active():
