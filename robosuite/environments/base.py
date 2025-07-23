@@ -3,6 +3,7 @@ import xml.etree.ElementTree as ET
 from collections import OrderedDict
 
 import numpy as np
+import mujoco
 
 import robosuite
 import robosuite.macros as macros
