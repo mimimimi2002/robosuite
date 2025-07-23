@@ -1,6 +1,7 @@
 import os
 import xml.etree.ElementTree as ET
 from collections import OrderedDict
+import mujoco_py
 
 import numpy as np
 
@@ -408,7 +409,7 @@ class MujocoEnv(metaclass=EnvMeta):
 
                 # 接触力ベクトル（法線＋接線成分、6次元）
                 c_array = np.zeros(6, dtype=np.float64)
-                mujoco.mj_contactForce(self.sim.model, self.sim.data, j, c_array)
+                mujoco_py.functions.mj_contactForce(self.sim.model, self.sim.data, i, c_array)
 
                 # 力の大きさ（ノルム）
                 force_magnitude = np.linalg.norm(c_array)
