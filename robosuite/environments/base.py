@@ -427,7 +427,7 @@ class MujocoEnv(metaclass=EnvMeta):
 
 
             # mj_contactForce を使って接触力を取得
-            mujoco.mj_contactForce(mujoco_model, mujoco_data, j, force)
+            mujoco.mj_contactForce(mujoco_model, mujoco_data, i, force)
 
 
             print(f"Contact {i}")
