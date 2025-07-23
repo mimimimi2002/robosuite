@@ -419,8 +419,6 @@ class MujocoEnv(metaclass=EnvMeta):
             self._pre_action(action, policy_step)
             self.sim.step()
             self._update_observables()
-            print("self.sim.data")
-            print(self.sim.data)
             for j in range(self.sim.data.ncon):
                 contact = self.sim.data.contact[j]
                 print("geom1:", contact.geom1, "geom2:", contact.geom2)
