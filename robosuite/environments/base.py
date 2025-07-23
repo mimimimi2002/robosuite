@@ -398,6 +398,24 @@ class MujocoEnv(metaclass=EnvMeta):
             for j in range(self.sim.data.ncon):
                 contact = self.sim.data.contact[j]
                 print("geom1:", contact.geom1, "geom2:", contact.geom2)
+                # ジオメトリID
+                geom1_id = contact.geom1
+                geom2_id = contact.geom2
+
+                # ジオメトリ名（名前が付いてないと None）
+                geom1_name = self.sim.model.geom_id2name(geom1_id) or f"geom_{geom1_id}"
+                geom2_name = self.sim.model.geom_id2name(geom2_id) or f"geom_{geom2_id}"
+
+                # 接触力ベクトル（法線＋接線成分、6次元）
+                c_array = np.zeros(6, dtype=np.float64)
+                mujoco.mj_contactForce(self.sim.model, self.sim.data, j, c_array)
+
+                # 力の大きさ（ノルム）
+                force_magnitude = np.linalg.norm(c_array)
+
+                print(f"Contact {j}: {geom1_name} <-> {geom2_name}")
+                print(f"  Force vector: {c_array}")
+                print(f"  |Force| = {force_magnitude:.4f} N")
             policy_step = False
 
         # Note: this is done all at once to avoid floating point inaccuracies
