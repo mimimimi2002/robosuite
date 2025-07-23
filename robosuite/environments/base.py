@@ -442,7 +442,7 @@ class MujocoEnv(metaclass=EnvMeta):
                 print(f"  force: {force}")
 
         if finger1_collision == None:
-            observations["finger1_collision"] = np.zeros_like(1, 6)
+            observations["finger1_collision"] = np.zeros_like((1, 6), dtype=np.float64)
         print(observations)
         return observations, reward, done, info
 
