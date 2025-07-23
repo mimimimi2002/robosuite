@@ -410,9 +410,13 @@ class MujocoEnv(metaclass=EnvMeta):
                 # 接触力ベクトル（法線＋接線成分、6次元）
                 # 接触力ベクトルの格納用（6次元：法線 + 接線 * 2）
                 force = np.zeros((6, 1), dtype=np.float64)
+                
+                mujoco_model = self.sim.model._model
+                mujoco_data  = self.sim.data._data
+                
 
                 # mj_contactForce を使って接触力を取得
-                mujoco.mj_contactForce(self.sim.model, self.sim.data, j, force)
+                mujoco.mj_contactForce(mujoco_model, mujoco_data, j, force)
 
 
                 print(f"Contact {i}")
