@@ -3,7 +3,7 @@ import xml.etree.ElementTree as ET
 from collections import OrderedDict
 
 import numpy as np
-import mujoco_py
+import mujoco
 
 import robosuite
 import robosuite.macros as macros
@@ -412,7 +412,7 @@ class MujocoEnv(metaclass=EnvMeta):
                 force = np.zeros(6, dtype=np.float64)
 
                 # mj_contactForce を使って接触力を取得
-                mujoco_py.functions.mj_contactForce(self.sim.model, self.sim.data, j, force)
+                mujoco.mj_contactForce(self.sim.model, self.sim.data, j, force)
 
 
                 print(f"Contact {i}")
