@@ -409,7 +409,7 @@ class MujocoEnv(metaclass=EnvMeta):
         observations = self.viewer._get_observations() if self.viewer_get_obs else self._get_observations()
 
         finger1_collisions = []
-        finger1_pad_collision = None
+        finger1_pad_collisions = None
         finger2_collision = None
         finger2_pad_collision = None
         for i in range(self.sim.data.ncon):
@@ -441,7 +441,7 @@ class MujocoEnv(metaclass=EnvMeta):
                 print(f"  force: {force}")
 
             if geom1_name == "gripper0_finger1_pad_collision" or geom2_name == "gripper0_finger1_pad_collision":
-                finger1_pad_collision.append(force.copy())
+                finger1_pad_collisions.append(force.copy())
                 print(f"Contact {i}")
                 print(f"  force: {force}")
 
@@ -452,12 +452,12 @@ class MujocoEnv(metaclass=EnvMeta):
             print(finger1_collisions)
             observations["finger1_collision"] = np.sum(np.array(finger1_collisions), axis=0)
 
-        if len(finger1_pad_collision) == 0:
+        if len(finger1_pad_collisions) == 0:
             observations["finger1_pad_collision"] = np.zeros((1, 6), dtype=np.float64)
         else:
             print("finger1_pad_collision")
-            print(finger1_collisions)
-            observations["finger1_pad_collision"] = np.sum(np.array(finger1_collisions), axis=0)
+            print(finger1_pad_collisions)
+            observations["finger1_pad_collision"] = np.sum(np.array(finger1_pad_collisions), axis=0)
         print(observations)
         return observations, reward, done, info
 
