@@ -409,9 +409,9 @@ class MujocoEnv(metaclass=EnvMeta):
         observations = self.viewer._get_observations() if self.viewer_get_obs else self._get_observations()
 
         finger1_collisions = []
-        finger1_pad_collisions = None
-        finger2_collision = None
-        finger2_pad_collision = None
+        finger1_pad_collisions = []
+        finger2_collisions = []
+        finger2_pad_collisions = []
         for i in range(self.sim.data.ncon):
             contact = self.sim.data.contact[i]
             # ジオメトリID
