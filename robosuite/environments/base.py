@@ -437,50 +437,34 @@ class MujocoEnv(metaclass=EnvMeta):
             # どちらかのgeometryがfiger1 collisionだった場合、contac forceをとる
             if geom1_name == "gripper0_finger1_collision" or geom2_name == "gripper0_finger1_collision":
                 finger1_collisions.append(force.copy())
-                print(f"Contact {i}")
-                print(f"  force: {force}")
 
             if geom1_name == "gripper0_finger1_pad_collision" or geom2_name == "gripper0_finger1_pad_collision":
                 finger1_pad_collisions.append(force.copy())
-                print(f"Contact {i}")
-                print(f"  force: {force}")
 
             if geom1_name == "gripper0_finger2_collision" or geom2_name == "gripper0_finger2_collision":
                 finger2_collisions.append(force.copy())
-                print(f"Contact {i}")
-                print(f"  force: {force}")
 
             if geom1_name == "gripper0_finger2_pad_collision" or geom2_name == "gripper0_finger2_pad_collision":
                 finger2_pad_collisions.append(force.copy())
-                print(f"Contact {i}")
-                print(f"  force: {force}")
 
         if len(finger1_collisions) == 0:
             observations["finger1_collision"] = np.zeros((1, 6), dtype=np.float64)
         else:
-            print("finger1_collisions")
-            print(finger1_collisions)
             observations["finger1_collision"] = np.sum(np.array(finger1_collisions), axis=0)
 
         if len(finger1_pad_collisions) == 0:
             observations["finger1_pad_collision"] = np.zeros((1, 6), dtype=np.float64)
         else:
-            print("finger1_pad_collision")
-            print(finger1_pad_collisions)
             observations["finger1_pad_collision"] = np.sum(np.array(finger1_pad_collisions), axis=0)
 
         if len(finger2_collisions) == 0:
             observations["finger2_collision"] = np.zeros((1, 6), dtype=np.float64)
         else:
-            print("finger1_collisions")
-            print(finger1_collisions)
             observations["finger2_collision"] = np.sum(np.array(finger2_collisions), axis=0)
 
         if len(finger2_pad_collisions) == 0:
             observations["finger2_pad_collision"] = np.zeros((1, 6), dtype=np.float64)
         else:
-            print("finger2_pad_collision")
-            print(finger2_pad_collisions)
             observations["finger2_pad_collision"] = np.sum(np.array(finger2_pad_collisions), axis=0)
         print(observations)
         return observations, reward, done, info
