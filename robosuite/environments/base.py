@@ -462,6 +462,8 @@ class MujocoEnv(metaclass=EnvMeta):
             observations["finger2_pad_collision"] = np.zeros((1, 6), dtype=np.float64)
         else:
             observations["finger2_pad_collision"] = np.sum(np.array(finger2_pad_collisions), axis=0)
+        print("shape")
+        print(observations["finger1_collision"].shape)
         return observations, reward, done, info
 
     def _pre_action(self, action, policy_step=False):
