@@ -394,8 +394,6 @@ class MujocoEnv(metaclass=EnvMeta):
             self._pre_action(action, policy_step)
             self.sim.step()
             self._update_observables()
-            print("self.sim.data")
-            print(self.sim.data)
             policy_step = False
 
         # Note: this is done all at once to avoid floating point inaccuracies
@@ -421,8 +419,6 @@ class MujocoEnv(metaclass=EnvMeta):
             # ジオメトリ名
             geom1_name = self.sim.model.geom_id2name(geom1_id) or f"geom_{geom1_id}"
             geom2_name = self.sim.model.geom_id2name(geom2_id) or f"geom_{geom2_id}"
-
-            print(f"  geom1: {geom1_name}, geom2: {geom2_name}")
 
             # 接触力ベクトルの格納用（6次元：法線 + 接線 * 2）
             force = np.zeros((6, 1), dtype=np.float64)
@@ -466,7 +462,6 @@ class MujocoEnv(metaclass=EnvMeta):
             observations["finger2_pad_collision"] = np.zeros((1, 6), dtype=np.float64)
         else:
             observations["finger2_pad_collision"] = np.sum(np.array(finger2_pad_collisions), axis=0)
-        print(observations)
         return observations, reward, done, info
 
     def _pre_action(self, action, policy_step=False):
