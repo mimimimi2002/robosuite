@@ -444,26 +444,25 @@ class MujocoEnv(metaclass=EnvMeta):
                 finger2_pad_collisions.append(force.copy())
 
         if len(finger1_collisions) == 0:
-            observations["finger1_collision"] = np.zeros((1, 6), dtype=np.float64)
+            observations["finger1_collision"] = np.zeros((6, 1), dtype=np.float64)
         else:
             observations["finger1_collision"] = np.sum(np.array(finger1_collisions), axis=0)
 
         if len(finger1_pad_collisions) == 0:
-            observations["finger1_pad_collision"] = np.zeros((1, 6), dtype=np.float64)
+            observations["finger1_pad_collision"] = np.zeros((6, 1), dtype=np.float64)
         else:
             observations["finger1_pad_collision"] = np.sum(np.array(finger1_pad_collisions), axis=0)
 
         if len(finger2_collisions) == 0:
-            observations["finger2_collision"] = np.zeros((1, 6), dtype=np.float64)
+            observations["finger2_collision"] = np.zeros((6, 1), dtype=np.float64)
         else:
             observations["finger2_collision"] = np.sum(np.array(finger2_collisions), axis=0)
 
         if len(finger2_pad_collisions) == 0:
-            observations["finger2_pad_collision"] = np.zeros((1, 6), dtype=np.float64)
+            observations["finger2_pad_collision"] = np.zeros((6, 1), dtype=np.float64)
         else:
             observations["finger2_pad_collision"] = np.sum(np.array(finger2_pad_collisions), axis=0)
-        print("shape")
-        print(observations["finger1_collision"].shape)
+
         return observations, reward, done, info
 
     def _pre_action(self, action, policy_step=False):
