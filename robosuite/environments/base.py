@@ -414,7 +414,6 @@ class MujocoEnv(metaclass=EnvMeta):
         finger2_pad_collision = None
         for i in range(self.sim.data.ncon):
             contact = self.sim.data.contact[i]
-            print("geom1:", contact.geom1, "geom2:", contact.geom2)
             # ジオメトリID
             geom1_id = contact.geom1
             geom2_id = contact.geom2
@@ -422,6 +421,8 @@ class MujocoEnv(metaclass=EnvMeta):
             # ジオメトリ名
             geom1_name = self.sim.model.geom_id2name(geom1_id) or f"geom_{geom1_id}"
             geom2_name = self.sim.model.geom_id2name(geom2_id) or f"geom_{geom2_id}"
+
+            print(f"  geom1: {geom1_name}, geom2: {geom2_name}")
 
             # 接触力ベクトルの格納用（6次元：法線 + 接線 * 2）
             force = np.zeros((6, 1), dtype=np.float64)
@@ -437,7 +438,11 @@ class MujocoEnv(metaclass=EnvMeta):
             if geom1_name == "gripper0_finger1_collision" or geom2_name == "gripper0_finger1_collision":
                 finger1_collisions.append(force.copy())
                 print(f"Contact {i}")
-                print(f"  geom1: {geom1_name}, geom2: {geom2_name}")
+                print(f"  force: {force}")
+
+            if geom1_name == "gripper0_finger1_pad_collision" or geom2_name == "gripper0_finger1_pad_collision":
+                finger1_pad_collision.append(force.copy())
+                print(f"Contact {i}")
                 print(f"  force: {force}")
 
         if len(finger1_collisions) == 0:
@@ -446,6 +451,13 @@ class MujocoEnv(metaclass=EnvMeta):
             print("finger1_collisions")
             print(finger1_collisions)
             observations["finger1_collision"] = np.sum(np.array(finger1_collisions), axis=0)
+
+        if len(finger1_pad_collision) == 0:
+            observations["finger1_pad_collision"] = np.zeros((1, 6), dtype=np.float64)
+        else:
+            print("finger1_pad_collision")
+            print(finger1_collisions)
+            observations["finger1_pad_collision"] = np.sum(np.array(finger1_collisions), axis=0)
         print(observations)
         return observations, reward, done, info
 
