@@ -421,7 +421,7 @@ class MujocoEnv(metaclass=EnvMeta):
             geom2_name = self.sim.model.geom_id2name(geom2_id) or f"geom_{geom2_id}"
 
             # 接触力ベクトルの格納用（6次元：法線 + 接線 * 2）
-            force = np.zeros((6, 1), dtype=np.float64)
+            force = np.zeros(6, dtype=np.float64)
 
             mujoco_model = self.sim.model._model # 内部の mujoco.MjModel
             mujoco_data  = self.sim.data._data # 内部の mujoco.MjData
@@ -444,22 +444,22 @@ class MujocoEnv(metaclass=EnvMeta):
                 finger2_pad_collisions.append(force.copy())
 
         if len(finger1_collisions) == 0:
-            observations["finger1_collision"] = np.zeros((6, 1), dtype=np.float64)
+            observations["finger1_collision"] = np.zeros(6, dtype=np.float64)
         else:
             observations["finger1_collision"] = np.sum(np.array(finger1_collisions), axis=0)
 
         if len(finger1_pad_collisions) == 0:
-            observations["finger1_pad_collision"] = np.zeros((6, 1), dtype=np.float64)
+            observations["finger1_pad_collision"] = np.zeros(6, dtype=np.float64)
         else:
             observations["finger1_pad_collision"] = np.sum(np.array(finger1_pad_collisions), axis=0)
 
         if len(finger2_collisions) == 0:
-            observations["finger2_collision"] = np.zeros((6, 1), dtype=np.float64)
+            observations["finger2_collision"] = np.zeros(6, dtype=np.float64)
         else:
             observations["finger2_collision"] = np.sum(np.array(finger2_collisions), axis=0)
 
         if len(finger2_pad_collisions) == 0:
-            observations["finger2_pad_collision"] = np.zeros((6, 1), dtype=np.float64)
+            observations["finger2_pad_collision"] = np.zeros(6, dtype=np.float64)
         else:
             observations["finger2_pad_collision"] = np.sum(np.array(finger2_pad_collisions), axis=0)
 
