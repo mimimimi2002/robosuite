@@ -436,6 +436,8 @@ class MujocoEnv(metaclass=EnvMeta):
 
             if geom1_name == "gripper0_finger1_pad_collision" or geom2_name == "gripper0_finger1_pad_collision":
                 finger1_pad_collisions.append(force.copy())
+                print(geom1_name)
+                print(geom2_name)
                 print(force)
 
             if geom1_name == "gripper0_finger2_collision" or geom2_name == "gripper0_finger2_collision":
