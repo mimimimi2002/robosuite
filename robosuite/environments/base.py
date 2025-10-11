@@ -338,8 +338,8 @@ class MujocoEnv(metaclass=EnvMeta):
         if force_update:
             self._update_observables(force=True)
 
-        print("self._observables.items()")
-        print(self._observables.items())
+        # print("self._observables.items()")
+        # print(self._observables.items())
 
         # Loop through all observables and grab their current observation
         for obs_name, observable in self._observables.items():
@@ -436,6 +436,7 @@ class MujocoEnv(metaclass=EnvMeta):
 
             if geom1_name == "gripper0_finger1_pad_collision" or geom2_name == "gripper0_finger1_pad_collision":
                 finger1_pad_collisions.append(force.copy())
+		print(force)
 
             if geom1_name == "gripper0_finger2_collision" or geom2_name == "gripper0_finger2_collision":
                 finger2_collisions.append(force.copy())
